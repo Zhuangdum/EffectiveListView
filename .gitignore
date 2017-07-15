@@ -36,3 +36,6 @@ sysinfo.txt
 #other
 .DS_Store
 Temp/
+.userprefs
+.sln
+.csproj
