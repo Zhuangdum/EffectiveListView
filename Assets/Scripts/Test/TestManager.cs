@@ -27,19 +27,19 @@ public class TestManager : MonoBehaviour
     }
     void OnGUI()
     {
-        if (GUI.Button(new Rect(200, 400, 100, 50), "SET000"))
+        if (GUI.Button(new Rect(200, 0, 100, 50), "SET000"))
         {
             uiManager.Init("000", TrimList(messageManager.messageData.Find(s => s.id == "000").list));
         }
-        if (GUI.Button(new Rect(300, 400, 100, 50), "SET111"))
+        if (GUI.Button(new Rect(300, 0, 100, 50), "SET111"))
         {
             uiManager.Init("111", TrimList(messageManager.messageData.Find(s => s.id == "111").list));
         }
-        if (GUI.Button(new Rect(400, 400, 100, 50), "SET222"))
+        if (GUI.Button(new Rect(400, 0, 100, 50), "SET222"))
         {
             uiManager.Init("222", TrimList(messageManager.messageData.Find(s => s.id == "222").list));
         }
-        if (GUI.Button(new Rect(500, 400, 100, 50), "SET333"))
+        if (GUI.Button(new Rect(500, 0, 100, 50), "SET333"))
         {
             uiManager.Init("333", TrimList(messageManager.messageData.Find(s => s.id == "333").list));
         }

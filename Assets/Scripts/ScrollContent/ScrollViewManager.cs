@@ -25,17 +25,8 @@ public class ScrollViewManager : MonoBehaviour
 	#endregion
 
 	#region onclickReceive Test 
-    public void ScrollMgrReceiveMessage(string id,string msg, ItemLayoutType type)
+    public void ScrollMgrReceiveMessage(string id,string msg)
 	{
-		//TODO
-		if (type == ItemLayoutType.Right)
-		{
-			type = ItemLayoutType.Right;
-		}
-		else
-		{
-			type = ItemLayoutType.Left;
-		}
         tabManager.ReceiveMessage(id, msg);
 	}
 	#endregion

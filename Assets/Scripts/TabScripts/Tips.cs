@@ -8,23 +8,23 @@ public class Tips : MonoBehaviour
 {
     [NonSerialized] public Action onShow; 
     [NonSerialized] public Action onHide;
-	public RawImage rawImage;
+    public Image image;
 	[HideInInspector]public int registerCount;
 	public void Init()
 	{
-		rawImage.enabled = false;
+		image.enabled = false;
 		registerCount = 0;
 	}
     public void Show()
     {
-		rawImage.enabled = true;
+		image.enabled = true;
 		if (onShow != null)
 			onShow();
     }
 
     public void Hide()
     {
-		rawImage.enabled = false;
+		image.enabled = false;
 		if (onHide != null)
 			onHide();
     }

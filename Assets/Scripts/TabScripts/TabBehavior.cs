@@ -57,9 +57,9 @@ public class TabBehavior : MonoBehaviour
 	}
 	#endregion
 	#region receive message
-	public void ReceiveMessage(string id, string message)
+	public void ReceiveMessage()
 	{
-		Debug.Log("id:  "+id+"  receive message"+message);
+        Debug.Log(txt.text + "receive message");
 		if(currentState == TabState.Normal)
 		{
 			SetAttention(true);

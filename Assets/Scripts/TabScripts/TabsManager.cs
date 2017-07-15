@@ -24,12 +24,12 @@ public class TabsManager : MonoBehaviour
 	private int index;
     public void Init(string tabID, List<string> message)
     {
-        AddTab(tabID, message);
+        AddTab(tabID);
         SetToTab(tabID);
-        messageContent.Init(currentTab.tabID, currentTab.messageLog);
+        messageContent.Init(currentTab.tabID, message);
     }
 	#region Add Tabs
-    private void AddTab(string tabID, List<string> message, TabType type = TabType.Flexible)
+    private void AddTab(string tabID, TabType type = TabType.Flexible)
 	{
 		if (type == TabType.Fixed)
 		{
@@ -38,7 +38,7 @@ public class TabsManager : MonoBehaviour
 				Debug.Log("fixed tab overflow");
 				return;
 			}
-            TabInfo info = CreateTab(tabID, message);
+            TabInfo info = CreateTab(tabID);
 			info.rect.SetSiblingIndex(fixedLinklist.Count);
 			fixedLinklist.AddFirst(info);
 		}
@@ -50,18 +50,17 @@ public class TabsManager : MonoBehaviour
 				flexibleLinklist.Last.Value.Clear();
 				flexibleLinklist.RemoveLast();
 			}
-            TabInfo info = CreateTab(tabID, message);
+            TabInfo info = CreateTab(tabID);
 			info.rect.SetSiblingIndex(fixedLinklist.Count);
 			flexibleLinklist.AddFirst(info);
 		}
 	}
-    TabInfo CreateTab(string tabID, List<string> message)
+    TabInfo CreateTab(string tabID)
 	{
 		RectTransform tab = GetTabFromPool();
 		tab.SetParent(content);
 		tab.localScale = Vector3.one;
 		TabInfo info = new TabInfo();
-        info.messageLog = message;
 		info.tabBehavior = tab.GetComponent<TabBehavior>();
         info.tabBehavior.txt.text = tabID;//temp set as data
         info.tabBehavior.SetMainManager(manager);
@@ -121,16 +120,23 @@ public class TabsManager : MonoBehaviour
     public void ReceiveMessage(string id, string message)
 	{
         TabInfo tabInfo = flexibleLinklist.FirstOrDefault(e => e.tabID == id);
-        if (tabInfo != null && id == currentTab.tabID)
-		{
-			tabInfo.rect.SetSiblingIndex(fixedLinklist.Count);
-//            tabInfo.ReceiveMessge(id, message);
-            messageContent.ReceiveMessge(message, ItemLayoutType.Left);
-		}
-		else
-		{
-			Debug.LogError("id is not current or can not find id");
-		}
+        if (tabInfo != null)
+        {
+            if (id == currentTab.tabID)
+            {
+                tabInfo.rect.SetSiblingIndex(fixedLinklist.Count);
+                messageContent.ReceiveMessge(message, ItemLayoutType.Left);
+            }
+            else
+            {
+                flexibleLinklist.FirstOrDefault(s => s.tabID == id).tabBehavior.ReceiveMessage();
+            }
+        }
+        else
+        {
+            AddTab(id);
+            flexibleLinklist.FirstOrDefault(s => s.tabID == id).tabBehavior.ReceiveMessage();
+        }
 	}
 	#endregion
 
