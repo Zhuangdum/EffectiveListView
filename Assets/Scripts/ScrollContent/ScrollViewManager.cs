@@ -46,8 +46,9 @@ public class ScrollViewManager : MonoBehaviour
 		{
 			Debug.Log("input field:  "+inputField.text);
             //send message to server
-            tabManager.ReceiveMessage("000", inputField.text);
-			inputField.text = null;
+//            tabManager.ReceiveMessage("000", inputField.text);
+            tabManager.ReceiveMessage("000", "inputField.text");
+            inputField.text = null;
 		}
 		else
 		{

@@ -119,7 +119,7 @@ public class TabsManager : MonoBehaviour
     public void ReceiveMessage(string id, string message)
 	{
         TabInfo tabInfo = flexibleLinklist.FirstOrDefault(e => e.tabID == id);
-		if (tabInfo != null)
+        if (tabInfo != null && id == currentTab.tabID)
 		{
 			tabInfo.rect.SetSiblingIndex(fixedLinklist.Count);
 //            tabInfo.ReceiveMessge(id, message);
@@ -127,7 +127,7 @@ public class TabsManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("can not find id");
+			Debug.LogError("id is not current or can not find id");
 		}
 	}
 	#endregion
