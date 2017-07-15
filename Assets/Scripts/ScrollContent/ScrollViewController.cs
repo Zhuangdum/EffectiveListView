@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public enum ItemLayoutType
 {
@@ -63,7 +64,9 @@ public class ScrollViewController : MonoBehaviour
     public void Init(string tabID, List<string> message)
 	{
 		scrollRect.onValueChanged.AddListener(OnScrollValueChange);
-        SetCotentData(message);
+        SetCotentData(message, delegate {
+            Debug.Log("SetContentData Success");
+        });
 	}
     private void InitContentInfo()
     {
@@ -73,18 +76,12 @@ public class ScrollViewController : MonoBehaviour
         scrollRect.content.sizeDelta = new Vector2(content.rect.width, 0);
     }
     #region SetData
-    public void SetCotentData(List<string> messageList)
+    public void SetCotentData(List<string> messageList, Action OnCallback)
     {
         Co_RefreshItem = StartCoroutine(RefreshItem());
         InitContentInfo();
         scrollRect.content.sizeDelta = new Vector2(content.rect.width, 0);
-        for (int i = 0; i < messageList.Count; i++)
-        {
-            if(!string.IsNullOrEmpty(messageList[i]))
-            {
-                ReceiveMessge(messageList[i], ItemLayoutType.Left);
-            }
-        }
+        StartCoroutine(ReceiveMessage(messageList, OnCallback));
     }
     #endregion
     void RecycleItemDic()
@@ -219,6 +216,19 @@ public class ScrollViewController : MonoBehaviour
 	#endregion
 
 	#region handle receive message
+    IEnumerator ReceiveMessage(List<string> msgList, Action OnCallback, ItemLayoutType type = ItemLayoutType.Left)
+    {
+        for (int i = 0; i < msgList.Count; i++)
+        {
+            CalcItemlHeight(msgList[i]);
+            yield return null;
+            Internal_ReceiveMessage(msgList[i], type);
+        }
+        SetContentToBottom();
+        if (OnCallback != null)
+            OnCallback();
+        yield return null;
+    }
 	public void ReceiveMessge(string str, ItemLayoutType type)
 	{
 		StartCoroutine(RceiveCoroutine(str, type));
@@ -282,6 +292,10 @@ public class ScrollViewController : MonoBehaviour
 	{
 		content.anchoredPosition = targetPos;
 	}
+    private void SetContentToBottom()
+    {
+        SetContentToBottom(new Vector2(0, content.anchoredPosition.y));
+    }
 	#endregion
 
 	#region get viewport height and position

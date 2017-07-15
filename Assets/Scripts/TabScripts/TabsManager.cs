@@ -8,6 +8,8 @@ using System;
 public class TabsManager : MonoBehaviour 
 {
     public Text title;
+    [Header("MainUIManager")]
+    public ScrollViewManager manager;
 	[Header("TabSelectColor")]
 	public Color normalColor;
 	public Color selectedColor;
@@ -62,7 +64,7 @@ public class TabsManager : MonoBehaviour
         info.messageLog = message;
 		info.tabBehavior = tab.GetComponent<TabBehavior>();
         info.tabBehavior.txt.text = tabID;//temp set as data
-		info.tabBehavior.SetTabManager(this);
+        info.tabBehavior.SetMainManager(manager);
 		info.tabBehavior.SetState(TabState.Normal);
         info.tabBehavior.id = tabID;
         info.tabID = tabID;
@@ -157,10 +159,10 @@ public class TabsManager : MonoBehaviour
 	#endregion
 
     #region SetContent Info
-    public void SetContentInfo(string id)
+    public void SetContentInfo(string id, Action OnCallback)
     {
         SetToTab(id);
-        messageContent.SetCotentData(TestManager.instance.messageManager.messageData.Find(s=>s.id == id).list);
+        messageContent.SetCotentData(TestManager.TrimList(TestManager.instance.messageManager.messageData.Find(s=>s.id == id).list), OnCallback);
     }
     #endregion
 
@@ -181,8 +183,6 @@ public class TabsManager : MonoBehaviour
 	#endregion
 
 	#region Test Code
-	string id1 = "";
-	string id2 = "";
 	void OnGUI()
 	{
 	}

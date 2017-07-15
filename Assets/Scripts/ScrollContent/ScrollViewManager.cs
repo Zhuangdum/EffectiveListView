@@ -10,6 +10,7 @@ public class ScrollViewManager : MonoBehaviour
     [Header("TabManager")]
     public TabsManager tabManager;
 	public InputField inputField;
+    public Button sendBtn;
 
     public void Init(string id, List<string> list)
     {
@@ -47,7 +48,7 @@ public class ScrollViewManager : MonoBehaviour
 			Debug.Log("input field:  "+inputField.text);
             //send message to server
 //            tabManager.ReceiveMessage("000", inputField.text);
-            tabManager.ReceiveMessage("000", "inputField.text");
+            tabManager.ReceiveMessage("000", inputField.text);
             inputField.text = null;
 		}
 		else
@@ -56,6 +57,16 @@ public class ScrollViewManager : MonoBehaviour
 		}
 	}
 	#endregion
+
+    #region set tab and content 
+    public void SwitchToTab(string id)
+    {
+        sendBtn.interactable = false;
+        tabManager.SetContentInfo(id, delegate {
+                sendBtn.interactable = true;
+            });
+    }
+    #endregion
 
     #region clear content
     private void ClearContent()

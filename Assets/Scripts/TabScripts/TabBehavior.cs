@@ -9,7 +9,7 @@ public class TabBehavior : MonoBehaviour
 	public Image image;
 	public Tips tips;
     public string id;
-    private TabsManager manager;
+    private ScrollViewManager manager;
 	private Button button;
 	#region enable and disable this scripts
 	private void OnEnable()
@@ -27,14 +27,14 @@ public class TabBehavior : MonoBehaviour
 	#region click events
 	public void OnClickButton()
 	{
-        manager.SetContentInfo(id);
-		manager.SwitchTabState(this);
+        manager.SwitchToTab(id);
+        manager.tabManager.SwitchTabState(this);
 		Debug.Log("send message named:  " + txt.text);
 	}
 	#endregion
 
 	#region set components
-	public void SetTabManager(TabsManager manager)
+    public void SetMainManager(ScrollViewManager manager)
 	{
 		this.manager = manager;
 	}
@@ -47,12 +47,12 @@ public class TabBehavior : MonoBehaviour
 		currentState = state;
 		if (state == TabState.Selected)
 		{
-			image.color = manager.selectedColor;
+            image.color = manager.tabManager.selectedColor;
 			SetAttention(false);
 		}
 		else
 		{
-			image.color = manager.normalColor;
+            image.color = manager.tabManager.normalColor;
 		}
 	}
 	#endregion
