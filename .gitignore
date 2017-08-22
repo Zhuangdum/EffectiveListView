@@ -40,3 +40,4 @@ Temp/
 .sln
 .csproj
 Library/
+.DS_Store?
