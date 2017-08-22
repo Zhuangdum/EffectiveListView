@@ -24,7 +24,6 @@ public class TabInfo
     public string tabID;
 	public TabBehavior tabBehavior;
 	public  RectTransform rect;
-    public List<string> messageLog;
 	public void Clear()
 	{
 		tabBehavior = null;
