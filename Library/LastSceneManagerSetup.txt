@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/TextScroll/TextScroll.unity
+- path: Assets/Scene/ChatUIScene.unity
   isLoaded: 1
   isActive: 1
